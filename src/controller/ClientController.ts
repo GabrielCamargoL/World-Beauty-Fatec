@@ -3,14 +3,14 @@ import Input from '../utils/InputForControllers'
 
 
 export default class ClientController {
-  private input: Input;
-  private clientList: Array<Client>;
-  private lists: ListsAll;
+  input: Input;
+  lists: ListsAll;
+  clientList: Array<Client>;
 
   constructor(lists: ListsAll) {
     this.input = new Input();
-    this.clientList = lists.clients;
     this.lists = lists;
+    this.clientList = lists.clients;
   }
 
 
@@ -22,6 +22,7 @@ export default class ClientController {
       [3] Selecionar um cliente
       [4] Atualizar dados do cliente
       [5] Remover cliente 
+      
       [0] Voltar <- 
       \n`
     );
@@ -156,7 +157,7 @@ export default class ClientController {
       }
     );
 
-    this.lists.setListClient(updateClientList);
+    this.lists.setClientList(updateClientList);
     console.log(`\n`);
   }
 }

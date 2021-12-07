@@ -1,22 +1,34 @@
 export class Product {
-  readonly id: number;
-  public name: string;
-  public type: string;
-  public brand: string;
-  public value: number;
+  readonly id: string;
+  name: string;
+  brand: string;
+  value: number;
+  quantity: number
 
   constructor(
-    id: number,
+    id: string,
     name: string,
-    type: string,
     brand: string,
     value: number,
+    quantity: number
   ) {
     this.id = id;
     this.name = name;
-    this.type = type;
     this.brand = brand;
     this.value = value;
+    this.quantity = quantity;
+  }
+
+  updateProductData(body: {
+    name: string,
+    brand: string,
+    value: number,
+    quantity: number
+  }) {
+    this.name = body.name;
+    this.brand = body.brand;
+    this.value = body.value;
+    this.quantity = body.quantity;
   }
 }
 

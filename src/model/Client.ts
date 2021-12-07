@@ -1,5 +1,5 @@
 export class Client {
-  id: string
+  readonly id: string
   gender: string
   name: string
   birthday: string

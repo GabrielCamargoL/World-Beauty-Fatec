@@ -1,35 +1,35 @@
 import { Client, Product, Service } from "./index";
 
 export default class ListsAll {
-  private _clientList: Array<Client>;
-  private _productList: Array<Product>;
-  private _services: Array<Service>;
+  clientList: Array<Client>;
+  servicesList: Array<Service>;
+  productList: Array<Product>;
 
   constructor() {
-    this._clientList = [];
-    this._productList = [];
-    this._services = [];
+    this.clientList = [];
+    this.servicesList = [];
+    this.productList = [];
   }
 
   public get clients() {
-    return this._clientList;
-  }
-  public get products() {
-    return this._productList;
+    return this.clientList;
   }
   public get services() {
-    return this._services;
+    return this.servicesList;
+  }
+  public get products() {
+    return this.productList;
   }
 
-  public setListClient(clientsUpdated: Array<Client>) {
-    this._clientList = clientsUpdated;
+  public setClientList(clientsUpdated: Array<Client>) {
+    this.clientList = clientsUpdated;
   }
 
-  public setListProduct(productUpdated: Array<Product>) {
-    this._productList = productUpdated;
+  public setServicesList(serviceUpdated: Array<Service>) {
+    this.servicesList = serviceUpdated;
   }
-
-  public setListServices(serviceUpdated: Array<Service>) {
-    this._services = serviceUpdated;
+  
+  public setProductList(productUpdated: Array<Product>) {
+    this.productList = productUpdated;
   }
 }
