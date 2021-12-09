@@ -1,12 +1,14 @@
-import { Client, Product, Service } from "./index";
+import { Client, Product, Service, Worker } from "./index";
 
 export default class ListsAll {
   clientList: Array<Client>;
+  workerList: Array<Worker>;
   servicesList: Array<Service>;
   productList: Array<Product>;
 
   constructor() {
     this.clientList = [];
+    this.workerList = [];
     this.servicesList = [];
     this.productList = [];
   }
@@ -14,15 +16,26 @@ export default class ListsAll {
   public get clients() {
     return this.clientList;
   }
+
+  public get workers() {
+    return this.workerList;
+  }
+
   public get services() {
     return this.servicesList;
   }
+
   public get products() {
     return this.productList;
   }
 
+
   public setClientList(clientsUpdated: Array<Client>) {
     this.clientList = clientsUpdated;
+  }
+
+  public setWorkersList(workersUpdated: Array<Worker>) {
+    this.workerList = workersUpdated;
   }
 
   public setServicesList(serviceUpdated: Array<Service>) {

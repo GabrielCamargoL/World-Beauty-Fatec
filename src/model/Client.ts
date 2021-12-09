@@ -1,3 +1,5 @@
+import {Order} from './Order';
+
 export class Client {
   readonly id: string
   gender: string
@@ -5,6 +7,7 @@ export class Client {
   birthday: string
   cpf: string
   phone: string
+  _orders: Array<Order>
 
   constructor(
     id: string,
@@ -20,13 +23,14 @@ export class Client {
       this.birthday = birthday,
       this.cpf = cpf,
       this.phone = phone
+      this._orders = [];
   }
 
-  public getCPF() {
+  getCPF() {
     return this.cpf;
   }
 
-  public updateClientData(body: {
+  updateClientData(body: {
     gender: string,
     name: string,
     birthday: string,
@@ -36,6 +40,19 @@ export class Client {
     this.name = body.name;
     this.birthday = body.birthday;
     this.phone = body.phone;
+  }
+
+
+  get orders() {
+    return this._orders;
+  }
+
+  set orders(order: Order[]) {
+    this._orders = order;
+  }
+
+  setListOrder(ordersUpdated: Array<Order>) {
+    this._orders = ordersUpdated;
   }
 }
 

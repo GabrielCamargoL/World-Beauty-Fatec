@@ -3,6 +3,8 @@ import ListsAll from './model/ListsAll';
 
 import ClientController from "./controller/ClientController";
 import ProductController from './controller/ProductController';
+import WorkerController from './controller/WorkerController';
+import { ServiceController } from './controller/ServiceController';
 
 console.log(`================== Grupo World Beauty ========================`);
 
@@ -13,9 +15,9 @@ let listsAll = new ListsAll();
 while (nodeProcess) {
   console.log(`
     [1] Clientes
-    [2] Produtos
-    [3] Serviços
-    [4] Dashboard
+    [2] Funcionários
+    [3] Produtos
+    [4] Serviços
     
     [0] - Sair
   `);
@@ -33,8 +35,16 @@ while (nodeProcess) {
       clientController.optionsClient();
       break;
     case 1:
+      const workerController = new WorkerController(listsAll);
+      workerController.optionsWorker();
+      break;
+    case 2:
       const productController = new ProductController(listsAll);
       productController.optionsProduct();
+      break;
+    case 4:
+      const serviceController = new ServiceController(listsAll);
+      serviceController.optionsServices();
       break;
     default:
       console.log(`Comando inválido!`);

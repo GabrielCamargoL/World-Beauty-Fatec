@@ -1,60 +1,58 @@
-import Service from "./Service"
+import { Order } from "./Order"
 
 export class Worker {
   id: string
   gender: string
   name: string
-  birthday: Date
+  birthday: string
   cpf: string
   phone: string
-  services!: Service
-  
+  _orders: Array<Order>
+
   constructor(
     id: string,
     gender: string,
     name: string,
-    birthday: Date,
+    birthday: string,
     cpf: string,
-    services: Service,
-    phone: string
+    phone: string,
+    _orders = []
   ) {
-    this.id= id,
+    this.id = id,
     this.gender = gender,
     this.name = name,
     this.birthday = birthday,
     this.cpf = cpf,
     this.phone = phone,
-    this.services! = services
-  }
-  
-  // Methods
-
-  public set setGender(gender: string) {
-    this.gender = gender;
+    this._orders = [];
   }
 
-  public set setName(name: string) {
-    this.name = name;
+  updateWorkerData(body: {
+    gender: string,
+    name: string,
+    birthday: string,
+    phone: string
+  }) {
+    this.gender = body.gender;
+    this.name = body.name;
+    this.birthday = body.birthday;
+    this.phone = body.phone;
   }
 
-  public set setBirthday(birthday: Date,) {
-    this.birthday = birthday;
+  getCPF() {
+    return this.cpf;
   }
 
-  public set setCPF(cpf: string) {
-    this.cpf = cpf;
+  get orders() {
+    return this._orders;
   }
 
-  public set setPhone(phone: string) {
-    this.phone = phone;
+  set orders(order: Order[]) {
+    this._orders = order;
   }
 
-  public get getServices(): Service {
-    return this.services;
-  }
-
-  public setServices(services: Service) {
-    this.services = services;
+  setListOrder(ordersUpdated: Array<Order>) {
+    this._orders = ordersUpdated;
   }
 }
 
