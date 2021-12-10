@@ -15,16 +15,12 @@ export class Order {
   >;
   readonly id: number;
   readonly clientId: string;
-  purchase_date: Date;
-  status_order: string;
   orderValue: number;
   workerId: string;
 
   constructor(
     id: number,
     clientId: string,
-    purchase_date: Date,
-    status_order: string,
     workerId: string,
     productList?: Array<
       {
@@ -42,8 +38,6 @@ export class Order {
   ) {
     this.id = id;
     this.clientId = clientId;
-    this.purchase_date = purchase_date;
-    this.status_order = status_order;
     this.workerId = workerId;
     this.productList = productList;
     this.serviceList = serviceList;

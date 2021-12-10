@@ -19,32 +19,29 @@ import {
 
 export class OrderController {
   input: Input;
+  lists: ListsAll;
   clientList: Array<ClientModel>;
   workerList: Array<WorkerModel>;
   productList: Array<ProductModel>;
   serviceList: Array<ServiceModel>;
-  lists: ListsAll;
 
   constructor(lists: ListsAll) {
+    this.input = new Input();
     this.lists = lists;
     this.clientList = lists.clients;
     this.workerList = lists.workers;
     this.productList = lists.products;
     this.serviceList = lists.services;
-    this.input = new Input();
   }
 
-  actionsOrder() {
-    console.log(
-      `\n
+  optionsOrder() {
+    console.log(`
       Opções de Cliente: 
-      1 - Cadastrar pedido
-      2 - Listar todos os pedidos
-      3 - Atualizar pedido
-      4 - Pagar pedido 
-      0 - Voltar ao menu principal \n
-      `
-    );
+      [1] Cadastrar novo pedido
+      [2] Listar pedidos
+      
+      [0] Voltar <- \n
+      `);
 
     let clientOption = this.input.number(
       `Por favor, escolha uma opção de cliente: `
@@ -52,7 +49,6 @@ export class OrderController {
     switch (clientOption) {
       case 0:
         return;
-      // break;
       case 1:
         this.create();
         break;
@@ -65,99 +61,104 @@ export class OrderController {
   }
 
   handleAddProductInShoppingCart() {
-    const productCartList: Array<{ product: ProductModel; quantity: number }> = [];
-    let insertingProductInCart = true;
+    const productShoppingCartList: Array<{ product: ProductModel; quantity: number }> = [];
+    let productInShoppingCart = true;
     do {
-      let wantAddInCart = this.input.text(
-        "Deseja adicionar um PRODUTO no carrinho ? [S] Sim | [N] Não "
+      let wantAddInShoppingCart = this.input.number(
+        "Deseja pedir um produto neste pedido? \n[1] Sim \n[2] Não\nResposta: "
       );
-      if (wantAddInCart.toLocaleUpperCase() === "S") {
+      if (wantAddInShoppingCart=== 1) {
         const productFind: ProductModel = searchProduct(this.productList);
 
         const quantityProduct = this.input.number("Quantidade : ");
 
         const product = { product: productFind, quantity: quantityProduct };
-        productCartList.push(product);
+        productShoppingCartList.push(product);
       } else {
-        insertingProductInCart = false;
+        productInShoppingCart = false;
       }
-    } while (insertingProductInCart);
-    return productCartList;
+    } while (productInShoppingCart);
+    return productShoppingCartList;
   }
 
   handleAddServiceInShoppingCart() {
     const serviceCartList: Array<{ service: ServiceModel; quantity: number }> = [];
 
-    let insertingServiceInCart = true;
+    let serviceInShoppingCart = true;
 
     do {
-      let wantAddInCart = this.input.text(
-        "Deseja adicionar um SERVIÇO no carrinho ? [S] Sim | [N] Não "
+      let wantAddInShoppingCart = this.input.number(
+        "Deseja agendar um serviço neste pedido? \n[1] Sim \n[2] Não\nResposta:  "
       );
-      if (wantAddInCart.toLocaleUpperCase() === "S") {
+      if (wantAddInShoppingCart === 1) {
         const serviceFind: ServiceModel = searchService(this.serviceList);
         const quantity = this.input.number("Quantidade : ");
         const service = { service: serviceFind, quantity: quantity };
         serviceCartList.push(service);
       } else {
-        insertingServiceInCart = false;
+        serviceInShoppingCart = false;
       }
-    } while (insertingServiceInCart);
+    } while (serviceInShoppingCart);
     return serviceCartList;
   }
 
   public create(): void {
-    console.log("\nCarrinho Cliente");
+    console.log("Pedido do cliente");
 
-    const timestamp = new Date();
-    const id = 1;
+    const id = Math.floor(Math.random() * 1000000) + 1;
     const client: ClientModel = searchClient(this.clientList);
     const worker: WorkerModel = searchWorker(this.workerList);;
-    const productCartList = this.handleAddProductInShoppingCart();
-    const serviceCartList = this.handleAddServiceInShoppingCart();
+    const productShoppingCartList = this.handleAddProductInShoppingCart();
+    const serviceShoppingCartList = this.handleAddServiceInShoppingCart();
 
     const order = new Order(
       id,
       client.id,
-      timestamp,
-      "pending",
       worker.id,
-      productCartList,
-      serviceCartList
+      productShoppingCartList,
+      serviceShoppingCartList
     );
 
     const clientOrders: Order[] = client.orders;
     clientOrders.push(order);
     client.orders = clientOrders;
 
-    console.log("\nCarrinho Criado com sucesso!)\n");
-    console.log(`Código do PEDIDO: ${order.id}`);
+    console.log("\nPedido criado com sucesso!)\n");
+    console.log(`id do pedido: ${order.id}`);
   }
 
-  public show(): void {
+  public show(): any {
     const order: Order = searchOrder(this.clientList);
-    const format = {
+    const reaisFormat = {
       minimumFractionDigits: 2,
       style: "currency",
       currency: "BRL",
     };
 
-    console.log("Código, Nome, Quantidade, Un, Valor");
-    console.log("_________________________________________");
-    order.productList?.forEach(({ product, quantity }) => {
-      const orderQuantity = quantity * product.value;
-      const formatOrderQuantity = orderQuantity.toLocaleString("pt-BR", format);
-      console.log(
-        `${product.id}, ${product.name}, ${quantity} UN, ${formatOrderQuantity}`
+    console.log('===========================================================================')
+    order.productList?.forEach(({ product }) => {
+      const orderTotalValue = product.quantity * product.value;
+      const formatOrderTotalValue = orderTotalValue.toLocaleString("pt-BR", reaisFormat);
+
+      console.log(`
+        id: ${product.id}
+        nome: ${product.name}
+        marca: ${product.brand} 
+        quantidade: ${product.quantity}
+        valor: ${formatOrderTotalValue}`
       );
     });
-    order.serviceList?.forEach(({ service, quantity }) => {
-      const orderQuantity = quantity * service.value;
-      const formatOrderQuantity = orderQuantity.toLocaleString("pt-BR", format);
-      console.log(
-        `${service.id}, ${service.name}, ${quantity} UN, ${formatOrderQuantity}`
+
+    order.serviceList?.forEach(({ service }) => {
+      const orderValue = service.value;
+      const formatOrderValue = orderValue.toLocaleString("pt-BR", reaisFormat);
+
+      console.log(`
+        id: ${service.id}, 
+        nome: ${service.name}, 
+        valor: ${formatOrderValue}`
       );
     });
-    console.log();
+    console.log('===========================================================================')
   }
 }

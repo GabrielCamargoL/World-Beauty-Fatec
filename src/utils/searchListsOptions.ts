@@ -4,10 +4,10 @@ import Input from "./InputForControllers";
 const input = new Input();
 
 const searchClient = (clientList: Array<Client>, cpf?: string) => {
-  let cpfNumber = !cpf ? input.text(`Informe o CPF do cliente: `) : cpf;
+  let CPF = !cpf ? input.text(`Informe o CPF do cliente: `) : cpf;
 
   const clientFiltered = clientList.filter(
-    (client) => client.getCPF() == cpfNumber
+    (client) => client.getCPF() == CPF
   );
 
   if (clientFiltered.length == 0) {
@@ -33,7 +33,7 @@ const searchWorker = (workerList: Array<Worker>, cpf?: string) => {
 
 
 const searchProduct = (productList: Array<Product>, name?: string) => {
-  let productName = !name ? input.number(`id: `) : name;
+  let productName = !name ? input.text(`name: `) : name;
 
   const productFiltered = productList.filter(
     (product) => product.name === productName
@@ -47,7 +47,7 @@ const searchProduct = (productList: Array<Product>, name?: string) => {
 };
 
 const searchService = (serviceList: Array<Service>, name?: string) => {
-  let serviceName = !name ? input.number(`id: `) : name;
+  let serviceName = !name ? input.text(`id: `) : name;
 
   const serviceFiltered = serviceList.filter(
     (service) => service.name === serviceName
