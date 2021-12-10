@@ -36,7 +36,7 @@ export class OrderController {
 
   optionsOrder() {
     console.log(`
-      Opções de Cliente: 
+      Opções de Pedidos: 
       [1] Cadastrar novo pedido
       [2] Listar pedidos
       
@@ -44,7 +44,7 @@ export class OrderController {
       `);
 
     let clientOption = this.input.number(
-      `Por favor, escolha uma opção de cliente: `
+      `Por favor, escolha uma opção sobre pedidos: `
     );
     switch (clientOption) {
       case 0:

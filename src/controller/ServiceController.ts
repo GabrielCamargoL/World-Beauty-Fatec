@@ -24,7 +24,7 @@ export class ServiceController {
       [0] - Voltar <-- 
       \n`);
 
-    let serviceOption = this.input.number(`Por favor, escolha uma opção: `);
+    let serviceOption = this.input.number(`Por favor, escolha uma opção sobre serviço: `);
 
     switch (serviceOption) {
       case 0:
